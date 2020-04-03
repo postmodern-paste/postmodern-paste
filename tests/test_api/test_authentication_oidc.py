@@ -16,7 +16,7 @@ class TestOIDCAuthentication(util.testing.OIDCTestCase):
         resp = self.client.get(
             HomeURI.uri(),
         )
-        self.assertIn('ANONYMOUS', resp.data)
+        self.assertIn(b'ANONYMOUS', resp.data)
 
         # Assert that when OIDC says user is logged in, they are created and logged n
         self.has_id_token = True
@@ -24,7 +24,7 @@ class TestOIDCAuthentication(util.testing.OIDCTestCase):
         resp = self.client.get(
             HomeURI.uri(),
         )
-        self.assertIn('TESTUSER', resp.data)
+        self.assertIn(b'TESTUSER', resp.data)
 
         # Use the code that retrieves a user if it already existed
         logout_user()
@@ -33,7 +33,7 @@ class TestOIDCAuthentication(util.testing.OIDCTestCase):
         resp = self.client.get(
             HomeURI.uri(),
         )
-        self.assertIn('TESTUSER', resp.data)
+        self.assertIn(b'TESTUSER', resp.data)
 
     def test_login_oauth2(self):
         # Assert that when OIDC says user is not logged in, they are not logged in
@@ -41,7 +41,7 @@ class TestOIDCAuthentication(util.testing.OIDCTestCase):
         resp = self.client.get(
             HomeURI.uri(),
         )
-        self.assertIn('ANONYMOUS', resp.data)
+        self.assertIn(b'ANONYMOUS', resp.data)
 
         # Assert that when OIDC says token is invalid, an error is returned
         resp = self.client.get(
@@ -58,7 +58,7 @@ class TestOIDCAuthentication(util.testing.OIDCTestCase):
             HomeURI.uri(),
             headers={'Authorization': 'Bearer test1'},
         )
-        self.assertIn('TESTTOKEN', resp.data)
+        self.assertIn(b'TESTTOKEN', resp.data)
 
         # Use the code that retrieves a user if it already existed
         logout_user()
@@ -68,4 +68,4 @@ class TestOIDCAuthentication(util.testing.OIDCTestCase):
             HomeURI.uri(),
             headers={'Authorization': 'Bearer test1'},
         )
-        self.assertIn('TESTTOKEN', resp.data)
+        self.assertIn(b'TESTTOKEN', resp.data)

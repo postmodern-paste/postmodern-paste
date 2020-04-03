@@ -1,5 +1,6 @@
-import authentication
-import main
-import misc
-import paste
-import user
+import uri.authentication
+import uri.main
+import uri.misc
+import uri.paste
+import uri.user
+import uri.uri

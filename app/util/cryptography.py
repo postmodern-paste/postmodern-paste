@@ -11,7 +11,7 @@ from util.exception import InvalidIDException
 # *sequences of 128 bits*"  (128 bits == 16 bytes)
 BLOCK_SIZE = 16
 PADDING_CHAR = '*'
-ALTCHARS = '~-'
+ALTCHARS = b'~-'
 
 
 def _pad(s):
@@ -22,8 +22,8 @@ def _base64_decode(data):
     """Decode base64, re-adding padding if needed."""
     to_add = len(data) % 4
     if to_add != 0:
-        data += b'=' * (4 - to_add)
-    return base64.b64decode(data, ALTCHARS)
+        data += '=' * (4 - to_add)
+    return base64.b64decode(data.encode(), ALTCHARS)
 
 
 def get_encid(decid):
@@ -40,8 +40,8 @@ def get_encid(decid):
 
     # Slashes are not URL-friendly; replace them with dashes
     # Also strip the base64 padding: it can be recovered.
-    cipher = AES.new(config.ID_ENCRYPTION_KEY, AES.MODE_CBC, config.ID_ENCRYPTION_IV)
-    return base64.b64encode(cipher.encrypt(_pad(str(decid))), ALTCHARS).rstrip('=')
+    cipher = AES.new(config.ID_ENCRYPTION_KEY.encode(), AES.MODE_CBC, config.ID_ENCRYPTION_IV.encode())
+    return base64.b64encode(cipher.encrypt(_pad(str(decid)).encode()), ALTCHARS).rstrip(b'=').decode()
 
 
 def get_decid(encid, force=False):
@@ -71,8 +71,8 @@ def get_decid(encid, force=False):
 
     try:
         str(encid)
-        cipher = AES.new(config.ID_ENCRYPTION_KEY, AES.MODE_CBC, config.ID_ENCRYPTION_IV)
-        return int(cipher.decrypt(_base64_decode(str(encid))).rstrip(PADDING_CHAR))
+        cipher = AES.new(config.ID_ENCRYPTION_KEY.encode(), AES.MODE_CBC, config.ID_ENCRYPTION_IV.encode())
+        return int(cipher.decrypt(_base64_decode(str(encid))).rstrip(PADDING_CHAR.encode()))
     except:
         raise InvalidIDException('The encrypted ID is not valid')
 
@@ -105,7 +105,7 @@ def secure_hash(s, iterations=10000):
     """
     if s is None:
         return None
-    hash_result = SHA256.new(data=str(s)).hexdigest()
+    hash_result = SHA256.new(data=str(s).encode()).hexdigest()
     for i in range(iterations):
-        hash_result = SHA256.new(data=hash_result).hexdigest()
+        hash_result = SHA256.new(data=hash_result.encode()).hexdigest()
     return hash_result

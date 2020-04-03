@@ -2,13 +2,13 @@
 from util.templating import *
 
 # Error documents
-from error import *
+from views.error import *
 
 # Page view functions
-from main import *
-from paste import *
-from user import *
-from misc import *
+from views.main import *
+from views.paste import *
+from views.user import *
+from views.misc import *
 
 # API view functions
 from api.authentication import *

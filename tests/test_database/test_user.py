@@ -9,7 +9,7 @@ import database.paste
 class TestUser(util.testing.DatabaseTestCase):
     def test_user_properties(self):
         user = util.testing.UserFactory.generate()
-        self.assertEqual(unicode(user.user_id), user.get_id())
+        self.assertEqual(user.user_id, user.get_id())
         self.assertTrue(user.is_authenticated())
         self.assertFalse(user.is_anonymous())
 

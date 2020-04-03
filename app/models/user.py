@@ -43,4 +43,4 @@ class User(db.Model):
         return False
 
     def get_id(self):
-        return unicode(self.user_id)
+        return self.user_id

@@ -14,28 +14,28 @@ skip-tests:
 default:
 	mkdir -p app/static/build/js
 	mkdir -p app/static/build/css
-	python build/build_database.py --create
-	python build/build_js.py --config-environment
-	python build/build_css.py --config-environment
+	python3 build/build_database.py --create
+	python3 build/build_js.py --config-environment
+	python3 build/build_css.py --config-environment
 
 dev:
 	mkdir -p app/static/build/js
 	mkdir -p app/static/build/css
-	python build/build_database.py --create
-	python build/build_js.py --dev
-	python build/build_css.py --dev
+	python3 build/build_database.py --create
+	python3 build/build_js.py --dev
+	python3 build/build_css.py --dev
 
 prod:
 	mkdir -p app/static/build/js
 	mkdir -p app/static/build/css
-	python build/build_database.py --create
-	python build/build_js.py --prod
-	python build/build_css.py --prod
+	python3 build/build_database.py --create
+	python3 build/build_js.py --prod
+	python3 build/build_css.py --prod
 
 dependencies:
 	java -version
-	gem install sass
-	npm install -g uglify-js
+	bundler install --deployment
+	npm install uglify-js
 	pip install -r requirements.txt
 	pre-commit install
 	git submodule init
@@ -43,10 +43,10 @@ dependencies:
 
 clean:
 	rm -rf app/static/build
-	python build/build_database.py --drop
+	python3 build/build_database.py --drop
 
 test:
-	python -m unittest discover -s tests -v
+	python3 -m unittest discover -s tests -v
 
 test-coverage:
 	coverage run --source=app -m unittest discover -s tests -v

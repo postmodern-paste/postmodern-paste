@@ -1,6 +1,7 @@
 from flask import Flask
 import flask_login
 import flask_sqlalchemy
+from flask_config import *
 
 app = Flask(__name__)
 app.config.from_object('flask_config')

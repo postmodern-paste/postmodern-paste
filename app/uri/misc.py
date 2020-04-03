@@ -1,4 +1,4 @@
-from base_uri import URI
+from uri.base_uri import URI
 
 
 class APIDocumentationInterfaceURI(URI):

@@ -32,14 +32,14 @@ class TestMisc(util.testing.DatabaseTestCase):
             )
 
         # All API endpoints in the JSON data should be rendered in the template
-        documented_api_endpoints = json.loads(
-            open(os.path.realpath('app/templates/misc/api_documentation.json')).read()
-        )['api_endpoints']
+        documented_api = open(os.path.realpath('app/templates/misc/api_documentation.json'))
+        documented_api_endpoints = json.loads(documented_api.read())['api_endpoints']
+        documented_api.close()
         for endpoint in documented_api_endpoints:
             self.assertIn(endpoint['name'].replace(' ', '-').lower(), api_documentation)
 
     def test_version(self):
-        version_string = views.misc.version().data.split('\n')
+        version_string = views.misc.version().data.decode().split('\n')
         self.assertEqual(4, len(version_string))  # 4 lines of output
 
         # Ensure branch name is present

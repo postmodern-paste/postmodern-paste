@@ -4,3 +4,7 @@
 app/static/build
 .sass-cache
 *.swp
+.bundle/
+node_modules/
+package-lock.json
+vendor/

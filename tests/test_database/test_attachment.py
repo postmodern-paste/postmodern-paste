@@ -66,7 +66,7 @@ class TestAttachment(util.testing.DatabaseTestCase):
             self.assertEqual('image/png', attachment_dict['mime_type'])
 
     def test_store_attachment_file(self):
-        with mock.patch.object(os, 'makedirs') as mock_makedirs, mock.patch('__builtin__.open') as mock_open:
+        with mock.patch.object(os, 'makedirs') as mock_makedirs, mock.patch('builtins.open') as mock_open:
             exception = OSError()
             exception.errno = errno.EEXIST
             mock_makedirs.side_effect = exception
@@ -76,7 +76,7 @@ class TestAttachment(util.testing.DatabaseTestCase):
             self.assertEqual(1, mock_makedirs.call_count)
             self.assertEqual(1, mock_open.call_count)
 
-        with mock.patch.object(os, 'makedirs') as mock_makedirs, mock.patch('__builtin__.open') as mock_open:
+        with mock.patch.object(os, 'makedirs') as mock_makedirs, mock.patch('builtins.open') as mock_open:
             exception = OSError()
             exception.errno = errno.EACCES
             mock_makedirs.side_effect = exception
@@ -90,7 +90,7 @@ class TestAttachment(util.testing.DatabaseTestCase):
                 'hash name',
             )
 
-        with mock.patch.object(os, 'makedirs') as mock_makedirs, mock.patch('__builtin__.open') as mock_open:
+        with mock.patch.object(os, 'makedirs') as mock_makedirs, mock.patch('builtins.open') as mock_open:
             paste = util.testing.PasteFactory.generate()
             self.assertIsNone(database.attachment._store_attachment_file(paste.paste_id, 'binary data', 'hash name'))
             self.assertEqual(1, mock_makedirs.call_count)

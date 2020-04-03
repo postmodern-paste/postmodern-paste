@@ -6,7 +6,7 @@ flask-oidc
 flask-sqlalchemy
 flask-testing
 mock
-mysql-python
+mysqlclient
 pbr
 pre-commit
 pycryptodome

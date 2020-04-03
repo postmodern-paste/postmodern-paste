@@ -54,28 +54,28 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    num_args = len(filter(lambda arg: arg, [args.config_environment, args.dev, args.prod]))
+    num_args = len(list(filter(lambda arg: arg, [args.config_environment, args.dev, args.prod])))
     if num_args > 1:
-        print 'Arguments are ambiguous. Choose only one of --config-environment, --dev, and --prod.\nExiting.'
+        print('Arguments are ambiguous. Choose only one of --config-environment, --dev, and --prod.\nExiting.')
         sys.exit(1)
     if num_args == 0:
-        print 'No arguments passed. Choose only one of --config-environment, --dev, and --prod.\nExiting.'
+        print('No arguments passed. Choose only one of --config-environment, --dev, and --prod.\nExiting.')
         sys.exit(1)
 
     style = 'expanded'
     if args.config_environment:
         if config.BUILD_ENVIRONMENT == constants.build_environment.DEV:
-            print 'Configuration in config.py specified a dev environment.\n' \
-                  'Skipping compilation of Javascript.'
+            print('Configuration in config.py specified a dev environment.\n'
+                  'Skipping compilation of Javascript.')
             sys.exit()
         else:
-            print 'Configuration in config.py specified a prod environment.\n' \
-                  'Compiling Javascript with default optimizations.'
+            print('Configuration in config.py specified a prod environment.\n'
+                  'Compiling Javascript with default optimizations.')
     if args.dev:
-        print 'Skipping compilation of Javascript.'
+        print('Skipping compilation of Javascript.')
         sys.exit()
     if args.prod:
-        print 'Compiling Javascript with default optimizations.'
+        print('Compiling Javascript with default optimizations.')
 
     CLOSURE_COMPILER_JAR = 'app/static/lib/closure-compiler/compiler.jar'
 
@@ -97,18 +97,18 @@ if __name__ == '__main__':
             js_output_files.append(file_path.replace('static/js', 'static/build/js'))
     mode_files = ['app/static/lib/codemirror/mode/{mode}/{mode}.js'.format(mode=mode) for mode in config.LANGUAGES if mode != 'text']
 
-    print 'Javascript build started.'
+    print('Javascript build started.')
     for js_file, js_output_file in zip(js_files, js_output_files):
-        print 'Compiling {js_file} --> {js_output_file}'.format(js_file=js_file, js_output_file=js_output_file)
+        print('Compiling {js_file} --> {js_output_file}'.format(js_file=js_file, js_output_file=js_output_file))
         abort_if_error(subprocess.call([
             'java', '-jar', CLOSURE_COMPILER_JAR,
             '--js', js_file + '/**.js' if is_multipart_controller(js_file) else js_file,
             '--js', 'app/static/js/universal/**.js',
             '--js_output_file', js_output_file,
         ]))
-    print 'Compiling selected languages: {languages}'.format(languages=config.LANGUAGES)
+    print('Compiling selected languages: {languages}'.format(languages=config.LANGUAGES))
     abort_if_error(subprocess.call([
         'uglifyjs',
         '-o', 'app/static/build/js/paste/modes.js'
     ] + mode_files))
-    print 'Javascript build complete.'
+    print('Javascript build complete.')

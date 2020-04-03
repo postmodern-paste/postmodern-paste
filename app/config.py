@@ -13,7 +13,7 @@ DEFAULT_HTTPS = True
 # The type of build environment
 # build_environment.DEV won't minify CSS and Closure-compile JavaScript; build_environment.PROD will.
 # Dev and prod environments also use separate databases, modern_paste_dev and modern_paste, respectively.
-BUILD_ENVIRONMENT = constants.build_environment.PROD
+BUILD_ENVIRONMENT = constants.build_environment.DEV
 
 # Option to use encrypted IDs rather than integer IDs
 # Set this to True if you want paste IDs to be encrypted, e.g. displayed as h0GZ19np17iT~CtpuIH3NcnRi-rYnlYzizqToCmG3BY=
@@ -77,10 +77,10 @@ AUTH_OIDC_SCOPE = 'modernpaste'
 # This is only relevant if USE_ENCRYPTED_IDS above is True. If not, this config parameter can be ignored.
 # It is recommended, but not strictly required, for you to replace the string below with the output of os.urandom(32),
 # so that the encrypted IDs generated for the app are specific to this installation.
-ID_ENCRYPTION_KEY = '6\x80\x18\xdc\xcf \xad\x14U\xa7\x05X\x7f\x81\x01\xd5\x19i\xf3S;\xcaL\xcf\xe2\x8d\x82\x1a\x12\xd9}\x8c'
+ID_ENCRYPTION_KEY = '43d0acab8bad477f'
 
 # AES iv for CBC block cipher operation, advice as per key gen above
-ID_ENCRYPTION_IV = '1234567890123456'
+ID_ENCRYPTION_IV = 'b7bc6c40e5cc8162'
 
 # Flask session secret key
 # IMPORTANT NOTE: Open up a Python terminal, and replace the below with the output of os.urandom(32)

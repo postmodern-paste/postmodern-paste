@@ -1,3 +1,3 @@
-from attachment import *
-from paste import *
-from user import *
+from models.attachment import *
+from models.paste import *
+from models.user import *
